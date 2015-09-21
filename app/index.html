@@ -3,39 +3,78 @@
   <head>
     <title>Wetenschapsagenda Crossfilter</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
 
     <link rel="stylesheet" type="text/css" href="http://dc-js.github.io/dc.js/css/dc.css"/>
   </head>
   <body>
-    <form>
-      <label><input type="radio" name="mode" value="grouped"> Grouped</label>
-      <label><input type="radio" name="mode" value="stacked" checked> Stacked</label>
-    </form>
 
-    <div id="multibar1"></div>
-    <div id="multibar2"></div>
-    <div id="multibar3"></div>
+    <div id="participatie_geslacht"><h3>Participatie geplot tegen leeftijd en geslacht deelnemer</h3>
+      <form>
+        <label><input type="radio" name="mode" value="grouped"> Grouped</label>
+        <label><input type="radio" name="mode" value="stacked" checked> Stacked</label>
+      </form>
 
-    <div id="pie1"></div>
-    <div id="pie2"></div>
+      <div id="multibar1"></div>
+      <div id="pie1"></div>
+    </div>
 
-    <div id="rowChart1"></div>
+    <div id="participatie_onderzoeksgebied"><h3>Interesse per onderzoeksgebied (ingevuld door deelnemer)</h3>
+      <div id="multibar3"></div>
+      <div id="multibar2"></div>
+      <div id="pie2"></div>
+    </div>
 
-    <div id="rowChart2a"></div>
-    <div id="rowChart2b"></div>
-    <div id="rowChart2c"></div>
+    <div id="participatie_organisaties"><h3>Deelname van organisaties</h3>
+      <div id="rowChart1"></div>
+    </div>
 
-    <div id="rowChart3"><span>Door Jury geclassificeerd als</span></div>
-    <div id="rowChart4"><span>Onderwerp volgens Jury</span></div>
+    <div id="topicmodel_results"><h3>Automatisch ge-assigneerde onderwerpen (Topic Modeling)</h3>
+      <div id="rowChart2a"></div>
+      <div id="rowChart2b"></div>
+      <div id="rowChart2c"></div>
+    </div>
 
-    <div class="table table-hover dc-data-table dc-chart"></div>
+    <div id="jury_classificaties"><h3>Jury Classificatiie</h3>
+      <div id="rowChart3"></div>
+      <div id="rowChart4"></div>
+    </div>
 
-    <script src="../bower_components/d3/d3.js"></script>
-    <script src="../bower_components/crossfilter/crossfilter.js"></script>
-    <script src="../bower_components/colorbrewer/colorbrewer.js"></script>
+    <div id="data_table"><h3>Individuele vragen corresponderend met bovenstaande filters</h3>
+      <div class="table table-hover dc-data-table dc-chart"></div>
+    </div>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/colorbrewer/colorbrewer.js"></script>
+    <script src="bower_components/crossfilter/crossfilter.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
     <script src="http://dc-js.github.io/dc.js/js/dc.js"></script>
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/utils/multi-bar-chart.js"></script>
     <script src="wetenschapsagenda.js"></script>
+    <!-- endbuild -->
   </body>
 </html>
