@@ -55,7 +55,7 @@ module.exports = function(grunt) {
         },
         files: [
           '<%= yeoman.app %>/{,*/}*.html',
-          '.tmp/styles/{,*/}*.css',
+          '<%= yeoman.app %>/{,*/}*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
           '<%= yeoman.app %>/scripts/{,*/}*.html'
         ]
@@ -75,7 +75,7 @@ module.exports = function(grunt) {
           open: true,
           middleware: function(connect) {
             return [
-              serveStatic('.tmp'),
+              // serveStatic('.tmp'),
               connect().use(
                 '/bower_components',
                 serveStatic('./bower_components')
@@ -93,7 +93,7 @@ module.exports = function(grunt) {
           port: 9001,
           middleware: function(connect) {
             return [
-              serveStatic('.tmp'),
+              // serveStatic('.tmp'),
               serveStatic('test'),
               connect().use(
                 '/bower_components',
@@ -375,10 +375,10 @@ module.exports = function(grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'copy:styles'
+        // 'copy:styles'
       ],
       test: [
-        'copy:styles'
+        // 'copy:styles'
       ],
       dist: [
         'copy:styles',

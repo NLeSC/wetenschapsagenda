@@ -1,21 +1,21 @@
-/* global d3:false, dc:false, crossfilter:false */
+/* global d3:false, dc:false, crossfilter:false, colorbrewer:false */
 
 (function() {
   'use strict';
 
-  var chart1 = dc.multiBarChart('#multibar1');
-  var chart2 = dc.multiBarChart('#multibar2');
-  var chart3 = dc.multiBarChart('#multibar3');
+  var chart1 = dc.multiBarChart('#multibar_geslacht_per_leeftijd');
+  var chart2 = dc.multiBarChart('#multibar_gebieden_per_leeftijd');
+  var chart3 = dc.multiBarChart('#multibar_frequentie_per_gebied');
 
-  var pie1 = dc.pieChart('#pie1');
-  var pie2 = dc.pieChart('#pie2');
+  var pie1 = dc.pieChart('#pie_geslacht');
+  var pie2 = dc.pieChart('#pie_gebieden');
 
-  var rowChart1 = dc.rowChart('#rowChart1');
-  var rowChart2a = dc.rowChart('#rowChart2a');
-  // var rowChart2b = dc.rowChart('#rowChart2b');
-  // var rowChart2c = dc.rowChart('#rowChart2c');
-  var rowChart3 = dc.rowChart('#rowChart3');
-  var rowChart4 = dc.rowChart('#rowChart4');
+  var rowChart1 = dc.rowChart('#rowchart_organisaties');
+  var rowChart2a = dc.rowChart('#rowchart_topicmodel_a');
+  // var rowChart2b = dc.rowChart('#rowchart_topicmodel_b');
+  // var rowChart2c = dc.rowChart('#rowchart_topicmodel_c');
+  var rowChart3 = dc.rowChart('#rowchart_jury_classificatie');
+  var rowChart4 = dc.rowChart('#rowchart_jury_topic');
 
   var dataTable1 = dc.dataTable('.dc-data-table');
 
@@ -98,7 +98,7 @@
         'Geestes'   :'#6a3d9a', 'Geesteswetenschappen'    :'#6a3d9a',
         'Levens'    :'#e31a1c', 'Levenswetenschappen'     :'#e31a1c',
         'Natuur'    :'#33a02c', 'Natuurwetenschappen'     :'#33a02c',
-        'Technische':'#1f78b4', 'Technische wetenschappen':'#1f78b4'
+        'Technische':'#1f78b4', 'Technische wetenschappen':'#1f78b4',
       };
 
       var fieldsColorRenderlet = function(_chart) {
@@ -189,8 +189,8 @@
       // var totalQuestionsByWetenschapsveldenPie =
 
 
-      var width = 800;
-      var height = 600;
+      var width = 600;
+      var height = 360;
 
       var ageDimension = ndx.dimension(function(d) {
         return +d.Leeftijd;
@@ -315,7 +315,7 @@
         .valueAccessor(function(d) {
           return d.value.Onbekend;
         })
-        .stack(totalQuestionsByWetenschapsveldenPerAge, 'Sociale Wetenschappen', function(d) {
+        .stack(totalQuestionsByWetenschapsveldenPerAge, 'Sociale wetenschappen', function(d) {
           return d.value.Sociale;
         })
         .stack(totalQuestionsByWetenschapsveldenPerAge, 'Geesteswetenschappen', function(d) {
@@ -327,7 +327,7 @@
         .stack(totalQuestionsByWetenschapsveldenPerAge, 'Natuurwetenschappen', function(d) {
           return d.value.Natuur;
         })
-        .stack(totalQuestionsByWetenschapsveldenPerAge, 'Technische Wetenschappen', function(d) {
+        .stack(totalQuestionsByWetenschapsveldenPerAge, 'Technische wetenschappen', function(d) {
           return d.value.Technische;
         })
 
@@ -337,7 +337,7 @@
         .xAxisLabel('Leeftijd')
         .yAxisLabel('Frequentie over Wetenschapsvelden')
 
-        .legend(dc.legend().x(width-75).y(height/10))
+        .legend(dc.legend().x(width-175).y(height/10))
         .xAxis().ticks(5).tickFormat(d3.format('d'));
 
       chart2.on('renderlet', fieldsColorRenderlet);
@@ -386,7 +386,7 @@
 
       chart3
         .width(width)
-        .height(height)
+        .height(480)
         .margins({top: height/10, right: width/20, bottom: 150, left: width/20})
         .dimension(wetenschapsVeldenDimension)
 
@@ -394,19 +394,19 @@
         .valueAccessor(function(d) {
           return d.value.Onbekend;
         })
-        .stack(totalQuestionsByWetenschapsvelden, 'Sociale', function(d) {
+        .stack(totalQuestionsByWetenschapsvelden, 'Sociale wetenschappen', function(d) {
           return d.value.Sociale;
         })
-        .stack(totalQuestionsByWetenschapsvelden, 'Geestes', function(d) {
+        .stack(totalQuestionsByWetenschapsvelden, 'Geesteswetenschappen', function(d) {
           return d.value.Geestes;
         })
-        .stack(totalQuestionsByWetenschapsvelden, 'Levens', function(d) {
+        .stack(totalQuestionsByWetenschapsvelden, 'Levenswetenschappen', function(d) {
           return d.value.Levens;
         })
-        .stack(totalQuestionsByWetenschapsvelden, 'Natuur', function(d) {
+        .stack(totalQuestionsByWetenschapsvelden, 'Natuurwetenschappen', function(d) {
           return d.value.Natuur;
         })
-        .stack(totalQuestionsByWetenschapsvelden, 'Technische', function(d) {
+        .stack(totalQuestionsByWetenschapsvelden, 'Technische wetenschappen', function(d) {
           return d.value.Technische;
         })
 
@@ -416,10 +416,10 @@
 
         .elasticY(true)
         .brushOn(true)
-        .xAxisLabel('Wetenschapsvelden (ingevuld door vraagsteller)')
+        .xAxisLabel('')
         .yAxisLabel('Frequentie')
 
-        .legend(dc.legend().x(width-75).y(height/10));
+        .legend(dc.legend().x(width-175).y(height/10));
         // .xAxis().ticks(5).tickFormat(d3.format('d'));
 
       chart3
@@ -443,7 +443,11 @@
       var sexDimension = ndx.dimension(function(d) {
         var result = '';
         if (d.Geslacht === '') {
-          result = 'Onbekend';
+          if (d.Namens === 'mijzelf') {
+            result = 'Onbekend';
+          } else {
+            result = 'Organisaties';
+          }
         } else {
           result = d.Geslacht;
         }
@@ -454,7 +458,7 @@
       pie1
         .width(200)
         .height(200)
-        .colors(d3.scale.ordinal().domain(['man','vrouw','Onbekend']).range(['blue', 'red', 'green']))
+        .colors(d3.scale.ordinal().domain(['man','vrouw','Onbekend', 'Organisaties']).range(['blue', 'red', 'green', 'orange']))
         .colorAccessor(function(d) {
           return d.key;
         })
@@ -716,12 +720,7 @@
       var juryCategoryGroup = juryCategoryDimension.group();
 
       rowChart4
-        .x(d3.scale.log()
-          .domain([1, 1500])
-          .range([0,600])
-          .nice()
-          // .ticks(20)
-        )
+        .x(d3.scale.linear())
 
         .data(function(d) {
           return d.order(function (d){
@@ -731,7 +730,7 @@
         .ordering(function(d){ return -d; })
         .width(600)
         .height(400)
-        .elasticX(false)
+        .elasticX(true)
         .dimension(juryCategoryDimension)
         .group(juryCategoryGroup);
 
@@ -744,6 +743,8 @@
 
 
       dataTable1
+        .size(25)
+        .width(1200)
         .dimension(titelDimension)
         .group(function (d) {
           return d;
@@ -809,12 +810,12 @@
             }
           },
           'JuryCategorie',
-          'Topic1',
-          'Topic1perc',
-          'Topic2',
-          'Topic2perc',
-          'Topic3',
-          'Topic3perc',
+          // 'Topic1',
+          // 'Topic1perc',
+          // 'Topic2',
+          // 'Topic2perc',
+          // 'Topic3',
+          // 'Topic3perc',
           'Leeftijd',
           'Geslacht'
         ]);

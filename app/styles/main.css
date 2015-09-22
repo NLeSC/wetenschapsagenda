@@ -1,23 +1,34 @@
-#participatie_geslacht {
-
+#banner {
+  color: white;
+  margin-top: 10px;
 }
 
-#participatie_onderzoeksgebied {
-
+#wetenschapsagendalink {
+  float:right;
 }
 
-#participatie_organisaties {
-
+#introduction {
+    margin-bottom: 15px;
+    background-color: rgba(128, 128, 128, 0.16);
+    margin-bottom: 15px;
+    background-color: rgba(128, 128, 128, 0.16);
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
-#topicmodel_results {
-
+body {
+  margin:10px;
 }
 
-#jury_classificaties {
-
+#pagetitle {
+  position: relative;
+  top: -15px;
 }
 
-#data_table {
+.logo {
+  width: 80%;
+}
 
+div.dc-chart {
+    float: none;
 }

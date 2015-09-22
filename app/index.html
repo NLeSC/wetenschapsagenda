@@ -3,52 +3,129 @@
   <head>
     <title>Wetenschapsagenda Crossfilter</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="http://dc-js.github.io/dc.js/css/dc.css"/>
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 
-    <link rel="stylesheet" type="text/css" href="http://dc-js.github.io/dc.js/css/dc.css"/>
   </head>
   <body>
 
-    <div id="participatie_geslacht"><h3>Participatie geplot tegen leeftijd en geslacht deelnemer</h3>
+    <div id="logo" class="row">
+      <div class="col-md-6">
+        <a href="https://www.esciencecenter.nl"><img class ="logo" src="images/ESCIENCE_logo_B_nl_long_cyanblack.svg"></a>
+      </div>
+    </div>
+    <div id="banner" class="row">
+      <div class="background" style="background: url('https://www.esciencecenter.nl/img/cdn/banner_background.jpg') no-repeat center center; background-size: cover;">
+    		<div class="container">
+    			<div class="inner">
+    				<center><h1>Visualizatie Nationale<br>Wetenschapsagenda</h1></center>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+
+    <div id="introduction" class="row">
+      <div class="col-md-6">
+        <p><b>"De Nationale Wetenschapsagenda bundelt de onderzoeksvragen waar de wetenschap zich de komende jaren op zal gaan richten. Wat zijn kansrijke
+          uitdagingen voor de Nederlandse wetenschap en hoe kan de wetenschap bijdragen aan het vinden van oplossingen voor maatschappelijke vraagstukken
+          en het benutten van economische kansen?"
+        </b></p>
+        <div id="wetenschapsagendalink"><a href="http://www.wetenschapsagenda.nl/">www.wetenschapsagenda.nl</a></div>
+      </div>
+      <div class="col-md-6">
+        <p>
+          Deze pagina is bedoeld als analytische tool voor het bekijken van de vragen die door het publiek zijn gesteld aan de wetenschap in Nederland.
+          In alle grafieken die u hier ziet kunt u subgebieden selecteren waarin u bent geinteresseerd.
+        </p>
+        <p>
+          U kunt bijvoorbeeld achtereenvolgens klikken op 'vrouw' in de Pie chart hier onder, om vragen te selecteren die gesteld zijn door vrouwen, en
+          dan een leeftijdscategorie selecteren in het histogram hierboven door (bijvoorbeeld) van 20 tot 30 te slepen.
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <!--
       <form>
         <label><input type="radio" name="mode" value="grouped"> Grouped</label>
         <label><input type="radio" name="mode" value="stacked" checked> Stacked</label>
       </form>
-
-      <div id="multibar1"></div>
-      <div id="pie1"></div>
+      -->
+      <div class="col-md-6">
+        <b>Participatie geplot tegen leeftijd en geslacht deelnemer</b>
+        <div id="multibar_geslacht_per_leeftijd"></div>
+      </div>
+      <div class="col-md-6">
+        <b>Vragen per onderzoeksgebied (ingevuld door deelnemer)</b>
+        <div id="multibar_gebieden_per_leeftijd"></div>
+      </div>
     </div>
 
-    <div id="participatie_onderzoeksgebied"><h3>Interesse per onderzoeksgebied (ingevuld door deelnemer)</h3>
-      <div id="multibar3"></div>
-      <div id="multibar2"></div>
-      <div id="pie2"></div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-4">
+              <div id="pie_geslacht"></div>
+            </div>
+            <div class="col-md-4">
+              <div id="pie_gebieden"></div>
+            </div>
+            <div class="col-md-2">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div>
+          <b>Wetenschapsvelden (ingevuld door vraagsteller)</b>
+          <div id="multibar_frequentie_per_gebied"></div>
+        </div>
+      </div>
     </div>
 
-    <div id="participatie_organisaties"><h3>Deelname van organisaties</h3>
-      <div id="rowChart1"></div>
+    <div class="row">
+      <div class="col-md-6">
+        <div>
+          <b>Deelname van organisaties</b>
+          <div id="rowchart_organisaties"></div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div id="topicmodel_results"><b>Automatisch ge-assigneerde onderwerpen (Topic Modeling)</b>
+          <div id="rowchart_topicmodel_a"></div>
+          <div id="rowchart_topicmodel_b"></div>
+          <div id="rowchart_topicmodel_c"></div>
+        </div>
+      </div>
     </div>
 
-    <div id="topicmodel_results"><h3>Automatisch ge-assigneerde onderwerpen (Topic Modeling)</h3>
-      <div id="rowChart2a"></div>
-      <div id="rowChart2b"></div>
-      <div id="rowChart2c"></div>
+    <div class="row">
+      <div class="col-md-6">
+        <b>Jury Classificatie per wetenschapsveld</b>
+        <div id="rowchart_jury_classificatie"></div>
+      </div>
+      <div class="col-md-6">
+        <b>Jury Classificatie per onderwerp</b>
+        <div id="rowchart_jury_topic"></div>
+      </div>
     </div>
 
-    <div id="jury_classificaties"><h3>Jury Classificatiie</h3>
-      <div id="rowChart3"></div>
-      <div id="rowChart4"></div>
-    </div>
-
-    <div id="data_table"><h3>Individuele vragen corresponderend met bovenstaande filters</h3>
-      <div class="table table-hover dc-data-table dc-chart"></div>
+    <div class="row">
+      <div class="col-md-12">
+        <b>Individuele vragen corresponderend met bovenstaande filters</b>
+        <div class="table table-hover dc-data-table dc-chart"></div>
+      </div>
     </div>
 
     <!-- build:js(.) scripts/vendor.js -->
