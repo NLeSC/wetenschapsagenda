@@ -29,6 +29,12 @@ body {
   width: 80%;
 }
 
+.nwa_logo {
+  position: absolute;
+  height: 14%;
+  right: 10px;
+}
+
 div.dc-chart {
     float: none;
 }
