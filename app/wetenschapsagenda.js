@@ -1,4 +1,4 @@
-/* global d3:false, dc:false, crossfilter:false, colorbrewer:false */
+/* global d3:false, dc:false, crossfilter:false, colorbrewer:false, tinycolor:false */
 
 (function() {
   'use strict';
@@ -71,7 +71,7 @@
       function formatOrganisation(d) {
         var result = '';
         if (d.Namens === 'mijzelf') {
-          result = 'mijzelf';
+          result = 'Ingevuld door individu';
         } else {
           result = d.NamensWie;
         }
@@ -116,6 +116,28 @@
         setStyle(_chart
           .selectAll('g.dc-legend-item')
           .selectAll('rect'), 'name'
+        );
+      };
+
+      var textRenderlet = function(_chart) {
+        function setStyle(selection) {
+          var rects = selection.select('rect');
+          var texts = selection.select('text');
+
+          var colors = [];
+          rects.each( function(){
+            colors.push(d3.select(this).attr('fill'));
+          });
+
+          texts.each( function(d, i){
+            d3.select(this).style('fill', function() {
+              return tinycolor.mostReadable(colors[i], ['black', 'white']);
+            });
+          });
+        }
+        // set the fill attribute for the bars
+        setStyle(_chart
+          .selectAll('g.row'), 'layer'
         );
       };
 
@@ -557,6 +579,7 @@
           return s;
         });
 
+        rowChart1.on('renderlet', textRenderlet);
         rowChart1.render();
 
       var topic1Dimension = ndx.dimension(function(d) {
@@ -651,6 +674,8 @@
         .elasticX(true)
         .dimension(topic1Dimension)
         .group(countPerTopic1);
+
+      rowChart2a.on('renderlet', textRenderlet);
       rowChart2a.render();
       //
       // rowChart2b
@@ -712,47 +737,66 @@
           return fieldsColorScale(d);
         });
 
+      rowChart3.on('renderlet', textRenderlet);
       rowChart3.render();
 
       var juryCategoryDimension = ndx.dimension(function(d) {
-        return d.JuryCategorie;
+        var result = d.JuryCategorie;
+        if (result === '' || result === '0') {
+          result = 'Niet Geclassificeerd';
+        }
+        return result;
       });
+
       var juryCategoryGroup = juryCategoryDimension.group();
+
+      function removeUnclassified(sourceGroup) {
+        function notUnclassified(d) {
+          return d.key !== 'Niet Geclassificeerd';
+        }
+        return {
+          all: function() {
+            return sourceGroup.all().filter(notUnclassified);
+          },
+          top: function(n) {
+            return sourceGroup.top(n).filter(notUnclassified);
+          }
+        };
+      }
+      var filteredJuryCategoryGroup = removeUnclassified(juryCategoryGroup);
 
       rowChart4
         .x(d3.scale.linear())
 
         .data(function(d) {
-          return d.order(function (d){
-            return d;
-          }).top(20);
+          return d.top(20);
         })
         .ordering(function(d){ return -d; })
         .width(600)
         .height(400)
         .elasticX(true)
         .dimension(juryCategoryDimension)
-        .group(juryCategoryGroup);
+        .group(filteredJuryCategoryGroup);
 
+      rowChart4.on('renderlet', textRenderlet);
       rowChart4.render();
 
-      var titelDimension = ndx.dimension(function(d) {
-        return d.Titel;
+
+      var idDimension = ndx.dimension(function(d) {
+        return +d['Vraag ID'];
       });
-
-
 
       dataTable1
         .size(25)
         .width(1200)
-        .dimension(titelDimension)
-        .group(function (d) {
-          return d;
+        .dimension(idDimension)
+        .group(function () {
+          return '';
         })
         .sortBy(function(d){return d['Vraag ID'];})
         .order(d3.ascending)
         .columns([
-          { label:'Organisation',
+          { label:'Organisatie',
             format: function(d) {
               return formatOrganisation(d);
             }
