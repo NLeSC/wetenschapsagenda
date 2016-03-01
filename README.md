@@ -1,4 +1,4 @@
-Visualizatie Nationale Wetenschapsagenda
+Visualisatie Nationale Wetenschapsagenda
 ========================================
 
 Getting started (windows, from scratch)
